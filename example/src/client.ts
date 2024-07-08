@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 import { listen } from '@codingame/monaco-jsonrpc';
-import * as monaco from 'monaco-editor-core'
+import * as monaco from 'monaco-editor'
 import {
     MonacoLanguageClient, MessageConnection, CloseAction, ErrorAction,
     MonacoServices, createConnection
