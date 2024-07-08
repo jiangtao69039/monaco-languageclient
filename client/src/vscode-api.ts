@@ -215,6 +215,7 @@ export function createVSCodeApi(servicesProvider: Services.Provider): typeof vsc
             return (listener: (e: vscode.TextDocumentChangeEvent) => any, thisArgs?: any, disposables?: Disposable[]): Disposable => {
                 return services.workspace.onDidChangeTextDocument(({ textDocument, contentChanges }) => {
                     const l: (e: vscode.TextDocumentChangeEvent) => any = listener.bind(thisArgs);
+                    console.log("vscode-api.js 218 callback");
                     l({
                         document: <any>textDocument,
                         contentChanges: <any>contentChanges

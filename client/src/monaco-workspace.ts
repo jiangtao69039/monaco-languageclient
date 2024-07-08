@@ -20,9 +20,15 @@ export class MonacoWorkspace implements Workspace {
         protected readonly m2p: MonacoToProtocolConverter,
         protected _rootUri: string | null = null) {
         for (const model of this._monaco.editor.getModels()) {
+            console.log("for loop to add model");
             this.addModel(model);
         }
-        this._monaco.editor.onDidCreateModel(model => this.addModel(model));
+
+        this._monaco.editor.onDidCreateModel(model => {
+                console.log("add model in onDidCreateModel");
+                this.addModel(model);
+        }
+        );
         this._monaco.editor.onWillDisposeModel(model => this.removeModel(model));
         this._monaco.editor.onDidChangeModelLanguage((event) => {
             this.removeModel(event.model);
@@ -47,8 +53,10 @@ export class MonacoWorkspace implements Workspace {
         const uri = model.uri.toString();
         const document = this.setModel(uri, model);
         this.onDidOpenTextDocumentEmitter.fire(document)
-        model.onDidChangeContent(event =>
-            this.onDidChangeContent(uri, model, event)
+        model.onDidChangeContent(event =>{
+            console.log("model prepare call back this.onDidChangeContent(uri, model, event);",{event})
+            this.onDidChangeContent(uri, model, event);
+        }
         );
     }
 
@@ -56,6 +64,7 @@ export class MonacoWorkspace implements Workspace {
         const textDocument = this.setModel(uri, model);
         const contentChanges = [];
         for (const change of event.changes) {
+            console.log("change receive:"+change.range)
             const range = this.m2p.asRange(change.range);
             const rangeLength = change.rangeLength;
             const text = change.text;
