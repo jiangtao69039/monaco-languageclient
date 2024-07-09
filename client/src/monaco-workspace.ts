@@ -19,15 +19,8 @@ export class MonacoWorkspace implements Workspace {
         protected readonly p2m: ProtocolToMonacoConverter,
         protected readonly m2p: MonacoToProtocolConverter,
         protected _rootUri: string | null = null) {
-        for (const model of this._monaco.editor.getModels()) {
-            this.addModel(model);
-        }
         this._monaco.editor.onDidCreateModel(model => this.addModel(model));
         this._monaco.editor.onWillDisposeModel(model => this.removeModel(model));
-        this._monaco.editor.onDidChangeModelLanguage((event) => {
-            this.removeModel(event.model);
-            this.addModel(event.model);
-        });
     }
 
     get rootUri() {
